@@ -54,6 +54,7 @@ h2 {
     margin-bottom: 16px; /* Increased spacing between items */
     color: #7a6a5d;
     padding: 5px 0; /* Added vertical padding */
+    line-height: 1.6;
 }
 
 .info-label1 {
@@ -65,6 +66,7 @@ h2 {
 .info-value1 {
     width: 60%;
     color: #5a4a42;
+    line-height: 1.6;
 }
 
 .button-container1 {
@@ -145,8 +147,8 @@ h2 {
     border: 1px solid #e8e1d5;
     border-radius: 12px;
     padding: 20px; /* Increased padding */
-    margin-top: 30px; /* Increased top margin */
-    margin-bottom: 30px; /* Added bottom margin */
+    margin-top: 40px; /* Increased top margin */
+    margin-bottom: 40px; /* Added bottom margin */
     text-align: left;
 }
 
@@ -163,6 +165,7 @@ h2 {
     color: #7a6a5d;
     margin-bottom: 12px; /* Increased spacing */
     font-size: 15px; /* Slightly larger */
+    line-height: 1.6;
 }
 
 .appointment-service1 {

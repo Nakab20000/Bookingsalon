@@ -41,7 +41,7 @@ urlpatterns = [
     #hairstyles
     path("hairstyles/", HairstyleListView.as_view(), name="hairstyles-list"),
     path("hairstyles/create/", HairstyleListCreateView.as_view(), name="hairstyles-list"),
-    path('hairstyles/<int:pk>/', HairstyleDetailView.as_view(), name='hairstyle-detail'),
+    path('hairstyles/<int:pk>/', HairstyleDetailsView.as_view(), name='hairstyle-detail'),
 
 
     # Booking Management (สำหรับแอดมิน)

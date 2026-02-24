@@ -37,7 +37,7 @@ const HairstyleDetails = () => {
                 <img 
                     src={hairstyle.image || "/images/default-haircut.jpg"} 
                     alt={hairstyle.name} 
-                    className="details-image"
+                    className="details-image1"
                 />
                 <h2>{hairstyle.name}</h2>
                 <p>{hairstyle.description}</p>

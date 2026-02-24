@@ -17,11 +17,15 @@
 }
 
 .details-image {
-    width: 100%;  /* ปรับขนาดให้เต็มพื้นที่ container */
-    max-width: 350px; /* จำกัดขนาดไม่ให้ใหญ่เกินไป */
-    height: auto; /* ปรับอัตราส่วนอัตโนมัติ */
+    width: 100%;
+    max-width: 200px;
+    height: 200px;        /* กำหนดความสูงคงที่ */
+    object-fit: cover;   /* ⭐ ทำให้รูปพอดีกรอบ ไม่ยืด */
     border-radius: 10px;
     margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 h2 {

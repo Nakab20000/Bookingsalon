@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import "./SelectDetailsPage.css"
 
 const SelectDetailsPage = () => {
     const location = useLocation();
@@ -145,51 +146,87 @@ const SelectDetailsPage = () => {
     };
 
     return (
-        <div className="container">
-            <h1  className="select-time-title10">เลือกทรงผม & โปรโมชั่น</h1>
-            <h2 className="select-time-title10"> วันที่: {selectedDate}</h2>
-            <h2 className="select-time-title10"> เวลา: {selectedTime}</h2>
+        <div className="booking12-container">
+            <div className="booking12-box">
+                <h1 className="booking12-title">เลือกทรงผม</h1>
 
-            <h3 className="select-time-title12">เลือกทรงผม:</h3>
-            <select value={bookingDetails.hairStyle} onChange={(e) => handleInputChange("hairStyle", e.target.value)}>
-                <option value="">-- เลือกทรงผม --</option>
-                {hairstyles.map((hairstyle) => (
-                    <option key={hairstyle.id} value={hairstyle.name}>
-                        {hairstyle.name} - ฿{hairstyle.price}
-                    </option>
-                ))}
-            </select>
+                <div className="booking12-datetime">
+                    <p>📅 วันที่: <strong>{selectedDate}</strong></p>
+                    <p>⏰ เวลา: <strong>{selectedTime}</strong></p>
+                </div>
 
-            <h3 className="select-time-title13">เลือกประเภทเส้นผม:</h3>
-            <input type="text" value={bookingDetails.hairType} onChange={(e) => handleInputChange("hairType", e.target.value)} placeholder="กรอกประเภทเส้นผม"  className="button-like-input1" />
+                <div className="booking12-field">
+                    <label>เลือกทรงผม</label>
+                    <select
+                        value={bookingDetails.hairStyle}
+                        onChange={(e) => handleInputChange("hairStyle", e.target.value)}
+                    >
+                        <option value="">-- เลือกทรงผม --</option>
+                        {hairstyles.map((h) => (
+                            <option key={h.id} value={h.name}>
+                                {h.name} - ฿{h.price}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-            <h3 className="select-time-title14">เลือกโปรโมชั่น (ถ้ามี):</h3>
-            <select value={bookingDetails.promotion} onChange={(e) => handleInputChange("promotion", e.target.value)}>
-                <option value="">ไม่มีโปรโมชั่น</option>
-                {promotions.map((promo) => (
-                    <option key={promo.promotion_id} value={promo.promotion_id}>
-                        {promo.name} - {promo.discount_amount}{promo.discount_type === "percent" ? "%" : "฿"}
-                    </option>
-                ))}
-            </select>
+                <div className="booking12-field">
+                    <label>ประเภทเส้นผม</label>
+                    <input
+                        type="text"
+                        placeholder="เช่น ผมตรง / ผมหยักศก"
+                        value={bookingDetails.hairType}
+                        onChange={(e) => handleInputChange("hairType", e.target.value)}
+                    />
+                </div>
 
-            <h3 className="select-time-title15">เลือกช่าง (ถ้ามี):</h3>
-            <select value={bookingDetails.stylistId} onChange={(e) => handleInputChange("stylistId", e.target.value)}>
-                <option value="">ไม่มีช่าง</option>
-                {stylists.map((stylist) => (
-                    <option key={stylist.id} value={stylist.id}>
-                        {stylist.name}
-                    </option>
-                ))}
-            </select>
+                <div className="booking12-field">
+                    <label>โปรโมชั่น</label>
+                    <select
+                        value={bookingDetails.promotion}
+                        onChange={(e) => handleInputChange("promotion", e.target.value)}
+                    >
+                        <option value="">ไม่มีโปรโมชั่น</option>
+                        {promotions.map((promo) => (
+                            <option key={promo.promotion_id} value={promo.promotion_id}>
+                                {promo.name} - {promo.discount_amount}
+                                {promo.discount_type === "percent" ? "%" : "฿"}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-            <h3 className="final-price">ราคาสุดท้าย: ฿{finalPrice.toFixed(2)}</h3>
+                <div className="booking12-field">
+                    <label>เลือกช่าง (ถ้ามี)</label>
+                    <select
+                        value={bookingDetails.stylistId}
+                        onChange={(e) => handleInputChange("stylistId", e.target.value)}
+                    >
+                        <option value="">ไม่ระบุ</option>
+                        {stylists.map((stylist) => (
+                            <option key={stylist.id} value={stylist.id}>
+                                {stylist.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-            <button onClick={handleBookingSubmit} disabled={isLoading}>
-                {isLoading ? "กำลังบันทึก..." : "ยืนยันการจอง"}
-            </button>
+                <div className="booking12-price">
+                    ราคาสุดท้าย: <span>฿{finalPrice.toFixed(2)}</span>
+                </div>
+
+                <button
+                    className="booking12-submit"
+                    onClick={handleBookingSubmit}
+                    disabled={isLoading}
+                >
+                    {isLoading ? "กำลังบันทึก..." : "ยืนยันการจอง"}
+                </button>
+            </div>
         </div>
+
     );
+
 
 };
 

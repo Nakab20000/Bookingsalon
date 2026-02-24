@@ -566,6 +566,7 @@ class NoShowCountView(APIView):
 
         # ส่งข้อมูลกลับไป
         return Response(count_data)
+    
 # ✅ API สำหรับดึงรายละเอียดของการไม่มาตามคิว
 class NoShowDetailsView(APIView):
     permission_classes = [IsAuthenticated]
@@ -588,11 +589,16 @@ class HairstyleListCreateView(generics.ListCreateAPIView):
         serializer.save()
 
 class HairstyleListView(generics.ListCreateAPIView):
-    permission_classes = [AllowAny]  # ให้เฉพาะแอดมินเพิ่มได้
+    permission_classes = [AllowAny]  
     queryset = Hairstyle.objects.all()
     serializer_class = HairstyleSerializer
 
 class HairstyleDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Hairstyle.objects.all()
+    serializer_class = HairstyleSerializer
+    permission_classes = [IsAdminUser]  # ✅ ให้เฉพาะแอดมินเข้าถึง
+    
+class HairstyleDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hairstyle.objects.all()
     serializer_class = HairstyleSerializer
     permission_classes = [AllowAny]  # ✅ ให้เฉพาะแอดมินเข้าถึง

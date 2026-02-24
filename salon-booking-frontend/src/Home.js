@@ -32,8 +32,7 @@ const Home = () => {
             <div className="hero-section2">
                 <h2 className="main-title2">ระบบจองคิวร้านตัดผม</h2>
                 <div className="booking-buttons2">
-                    <a href="/booking" className="booking-button2">จองคิวล่วงหน้า</a>
-                    <a href="/booking" className="booking-button2">จองคิวเลย</a>
+                    <a href="/booking" className="booking-button2">ตรวจสอบคิวที่ว่างได้เลย</a>
                 </div>
             </div>
 

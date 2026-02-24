@@ -1,87 +1,72 @@
-/* SelectDetailsPage.css */
-.container {
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-    text-align: center;
+.booking12-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f6fa;
 }
 
-h1, h2, h3 {
-    color: #333;
+.booking12-box {
+  background: #ffffff;
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.select-time-title12,
-.select-time-title13,
-.select-time-title14 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #444;
+.booking12-title {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-select, input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-.button-like-input1 {
-    display: inline-block;
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    color: rgb(203, 27, 27);
-    background-color: #007bff; /* สีฟ้าเหมือนปุ่ม */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    width: 100%;
-    transition: background 0.3s ease-in-out;
+.booking12-datetime {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #555;
 }
 
-.button-like-input1::placeholder {
-    color: rgba(255, 255, 255, 0.7); /* ให้ placeholder เป็นสีขาวจางๆ */
+.booking12-field {
+  margin-bottom: 16px;
 }
 
-.button-like-input1:hover {
-    background-color: #0056b3; /* สีเข้มขึ้นเมื่อ hover */
+.booking12-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
-.button-like-input1:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+.booking12-field input,
+.booking12-field select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
-.final-price {
-    font-size: 20px;
-    font-weight: bold;
-    color: #e63946;
-    margin-top: 15px;
+.booking12-price {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 20px 0;
 }
 
-button {
-    width: 80%;
-    padding: 8px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease-in-out;
+.booking12-price span {
+  color: #e67e22;
 }
 
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+.booking12-submit {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-button:hover:not(:disabled) {
-    background-color: #0056b3;
+.booking12-submit:disabled {
+  background: #999;
+  cursor: not-allowed;
 }
