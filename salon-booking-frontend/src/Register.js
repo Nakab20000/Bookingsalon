@@ -12,10 +12,11 @@ const Register = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const navigate = useNavigate();
+    const role = "member";
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        authService.register(username, email, password, passwordConfirmation, phoneNumber, firstName, lastName)
+        authService.register(username, email, password, passwordConfirmation, phoneNumber, firstName, lastName, role)
             .then(response => {
                 console.log(response.data);
                 if (response.status === 201) {

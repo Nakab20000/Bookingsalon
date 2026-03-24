@@ -31,6 +31,7 @@ const AdminPage = () => {
                         <button className="link-item" onClick={() => navigate('/admin/calendar')}>📅 ดูปฏิทินการจอง</button>
                         <button className="link-item" onClick={() => navigate('/admin/add-promotion')}>🎁 โปรโมชั่น</button>
                         <button className="link-item" onClick={() => navigate('/admin/members')}>👥 สมาชิก</button>
+                        <button className="link-item" onClick={() => navigate('/admin/add-stylist')}>✂️ เพิ่ม Stylist</button>
                         <button className="link-item" onClick={() => navigate('/admin/create/hairstyles')}>👥 เพิ่มทรงผม</button>
                         <button className="link-item" onClick={() => navigate('/admin/hairstyles')}>👥 รายละเอียดทรงผม</button>
                     </div>

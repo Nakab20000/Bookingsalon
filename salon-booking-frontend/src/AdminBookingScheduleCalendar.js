@@ -16,7 +16,17 @@ const AdminBookingScheduleCalendar = () => {
     const fetchBookings = async () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const response = await fetch("http://127.0.0.1:8000/api/bookings/", {
+            const role = localStorage.getItem("role");
+            const userId = localStorage.getItem("user_id");
+
+            let apiUrl = "http://127.0.0.1:8000/api/bookings/";
+
+            // ถ้าเป็นช่าง ให้เรียก API ที่ดึงเฉพาะคิวของช่างคนนี้
+            if (role === "stylist" && userId) {
+                apiUrl = `http://127.0.0.1:8000/api/stylist/${userId}/bookings/`;
+            }
+
+            const response = await fetch(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "application/json",
@@ -47,7 +57,13 @@ const AdminBookingScheduleCalendar = () => {
 
     const handleDateClick = (arg) => {
         const date = arg.dateStr;
-        navigate(`/admin/calendar/booking-details?date=${date}`);
+        const role = localStorage.getItem("role");
+
+        if (role === "stylist") {
+            navigate(`/stylist/calendar/booking-details?date=${date}`);
+        } else {
+            navigate(`/admin/calendar/booking-details?date=${date}`);
+        }
     };
 
     const events = eventDays.map((date) => ({

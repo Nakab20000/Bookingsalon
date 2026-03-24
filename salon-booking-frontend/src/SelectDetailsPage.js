@@ -109,13 +109,12 @@ const SelectDetailsPage = () => {
         const formattedDate = new Date(selectedDate).toISOString().split("T")[0];
 
         const bookingData = {
-            user_id,
             booking_date: formattedDate,
             booking_time: selectedTime,
             hair_style: bookingDetails.hairStyle,
             hair_type: bookingDetails.hairType,
             promotion: bookingDetails.promotion || null,
-            stylist_id: bookingDetails.stylistId || null,
+            stylist: bookingDetails.stylistId || null,
             price: finalPrice,
         };
 
@@ -205,7 +204,7 @@ const SelectDetailsPage = () => {
                         <option value="">ไม่ระบุ</option>
                         {stylists.map((stylist) => (
                             <option key={stylist.id} value={stylist.id}>
-                                {stylist.name}
+                                {stylist.first_name} {stylist.last_name}
                             </option>
                         ))}
                     </select>

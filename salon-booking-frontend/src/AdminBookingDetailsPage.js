@@ -12,11 +12,22 @@ const AdminBookingDetailsPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const role = localStorage.getItem("role");
+    const title = role === "stylist" ? `📅 รายละเอียดการจองของฉันวันที่ ${selectedDate}` : `📅 รายละเอียดการจองวันที่ ${selectedDate}`;
+
     // ✅ ใช้ useCallback เพื่อป้องกันปัญหา dependency loop
     const fetchBookings = useCallback(async () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
-            const apiUrl = `http://127.0.0.1:8000/api/bookings/?date=${selectedDate}`;
+            const role = localStorage.getItem("role");
+            const userId = localStorage.getItem("user_id");
+
+            let apiUrl = `http://127.0.0.1:8000/api/bookings/?date=${selectedDate}`;
+
+            // หากเป็นช่าง ใช้ API ของช่าง (filter ตามวันที่ด้วย)
+            if (role === "stylist" && userId) {
+                apiUrl = `http://127.0.0.1:8000/api/stylist/${userId}/bookings/?date=${selectedDate}`;
+            }
 
             console.log("📡 Fetching API:", apiUrl);  // ตรวจสอบ URL ที่เรียก API
 
@@ -56,7 +67,7 @@ const AdminBookingDetailsPage = () => {
 
     return (
         <div className="booking-details-container">
-            <h2>📅 รายละเอียดการจองวันที่ {selectedDate}</h2>
+            <h2>{title}</h2>
 
             {console.log("📡 แสดงผล bookings:", bookings)} {/* ✅ Debug */}
 
@@ -79,7 +90,14 @@ const AdminBookingDetailsPage = () => {
                 <p>ไม่มีการจองในวันนี้</p>
             )}
 
-            <button onClick={() => navigate("/admin/calendar")}>🔙 กลับไปปฏิทิน</button>
+            <button onClick={() => {
+                const role = localStorage.getItem("role");
+                if (role === "stylist") {
+                    navigate("/stylist/schedule");
+                } else {
+                    navigate("/admin/calendar");
+                }
+            }}>🔙 กลับไปปฏิทิน</button>
         </div>
     );
 };

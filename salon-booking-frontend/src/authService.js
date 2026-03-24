@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = "http://localhost:8000/api/";
 
 // ✅ ฟังก์ชัน register สำหรับลงทะเบียน
-const register = (username, email, password, passwordConfirmation, phoneNumber, firstName, lastName) => {
+const register = (username, email, password, passwordConfirmation, phoneNumber, firstName, lastName, role = 'member') => {
     return axios.post(API_URL + "register/", {
         username,
         email,
@@ -12,6 +12,7 @@ const register = (username, email, password, passwordConfirmation, phoneNumber, 
         phone_number: phoneNumber,
         first_name: firstName,
         last_name: lastName,
+        role,
     });
 };
 

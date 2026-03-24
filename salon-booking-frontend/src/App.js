@@ -24,6 +24,7 @@ import AdminBookingsPage from "./AdminBookingsPage";
 import AdminBookingScheduleCalendar from "./AdminBookingScheduleCalendar";
 import AvailableTimesPage from "./AvailableTimesPage";
 import MemberBookingsPage from "./MemberBookingsPage"; // ✅ นำเข้า "คิวของฉัน"
+import StylistBookingsPage from "./StylistBookingsPage"; // ✅ นำเข้า "คิวช่าง"
 import AdminBookingDetailsPage from "./AdminBookingDetailsPage";
 import MemberReviewsPage from "./MemberReviewsPage";
 import AddReviewPage from './AddReviewPage';
@@ -32,6 +33,7 @@ import AddPromotionPage from "./AddPromotionPage";
 import MemberPromotionsPage from "./MemberPromotionsPage";
 import PublicPromotionsPage from "./PublicPromotionsPage";
 import AdminMemberManagementPage from './AdminMemberManagementPage';
+import AdminAddStylistPage from './AdminAddStylistPage';
 import NoShowMembersPage from "./NoShowMembersPage";
 import MyNoShowPage from "./MyNoShowPage";
 import AdminHairstylesPage from './AdminHairstylesPage';
@@ -42,6 +44,7 @@ import AdminHairstyleList from "./AdminHairstyleList";
 import RequestReset from "./RequestReset";
 import ResetPassword from "./ResetPassword";
 import VerifyResetCode from './VerifyResetCode';
+import StylistPage from './StylistPage';
 
 function App() {
     return (
@@ -74,6 +77,7 @@ function App() {
                 {/* 🔧 Admin Routes */}
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="/admin/members" element={<AdminMemberManagementPage />} />
+                <Route path="/admin/add-stylist" element={<AdminAddStylistPage />} />
                 <Route path="/admin/no-show-members" element={<NoShowMembersPage />} />
                 <Route path="/admin/bookings" element={<AdminBookingsPage />} />
                 <Route path="/admin/calendar" element={<AdminBookingScheduleCalendar />} />
@@ -91,6 +95,15 @@ function App() {
                 <Route path="/admin/hairstyles" element={<AdminHairstyleList />} />
                 <Route path="/admin/hairstyles/:id" element={<AdminHairstyleDetail />} />
                 <Route path="/admin/create/hairstyles" element={<AdminHairstylesPage />} />
+
+                {/* ✂️ Stylist Routes */}
+                <Route path="/stylist" element={<StylistPage />} />
+                <Route path="/stylist/profile" element={<Profile />} />
+                <Route path="/stylist/portfolio" element={<PortfolioList />} />
+                <Route path="/stylist/bookings" element={<StylistBookingsPage />} />
+                <Route path="/stylist/reviews" element={<MyReviewsPage />} />
+                <Route path="/stylist/schedule" element={<AdminBookingScheduleCalendar />} />
+                <Route path="/stylist/calendar/booking-details" element={<AdminBookingDetailsPage />} />
 
                 {/* 🔄 General Routes */}
                 <Route path="/booking" element={<BookingPage />} />

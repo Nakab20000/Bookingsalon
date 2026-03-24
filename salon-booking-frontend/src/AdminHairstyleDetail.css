@@ -14,11 +14,14 @@
 }
 
 .hairstyle-image {
-    width: 100%; /* กำหนดให้รูปภาพเต็มกว้าง */
-    max-width: 500px; /* กำหนดขนาดสูงสุดของรูปภาพ */
-    height: auto;
+    width: 100%;
+    max-width: 200px;
+    height: 200px;          /* ความสูงคงที่ */
+    object-fit: cover;      /* รูปเต็มกรอบ */
+    object-position: center;/* อยู่กลาง */
     border-radius: 10px;
-    object-fit: cover; /* ทำให้รูปภาพไม่เบี้ยว */
+    display: block;
+    margin: 0 auto;         /* จัดกลาง */
 }
 
 input, textarea {
