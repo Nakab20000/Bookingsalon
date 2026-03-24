@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
+from .models import *
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -27,4 +28,5 @@ class CustomUserAdmin(UserAdmin):
             'classes': ('wide',),
             'fields': ('username', 'email', 'password1', 'password2', 'role'),
         }),
+    
     )

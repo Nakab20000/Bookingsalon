@@ -67,12 +67,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class BookingSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
+    stylist_name = serializers.CharField(source="stylist.username", read_only=True)
 
     class Meta:
         model = Booking
         fields = [
             'id', 'user', 'username', 'booking_date', 'booking_time',
-            'hair_style', 'hair_type', 'status', 'promotion', 'price', 'cancel_reason'
+            'hair_style', 'hair_type', 'status', 'promotion', 'price', 'stylist', 'stylist_name', 'cancel_reason'
         ]
         read_only_fields = ['id', 'user', 'username', 'status', 'cancel_reason']
 
@@ -151,3 +152,9 @@ class ResetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     token = serializers.CharField(max_length=6)
     new_password = serializers.CharField(write_only=True)
+    
+class StylistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'phone_number']
+        

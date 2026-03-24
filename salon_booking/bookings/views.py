@@ -21,6 +21,8 @@ from django.utils import timezone
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
 from .models import Booking
+from .models import *
+from .serializers import *
 from .serializers import BookingSerializer
 
 from .serializers import (
@@ -56,10 +58,17 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user:
             refresh = RefreshToken.for_user(user)
+            # ใช้ role ที่เก็บใน CustomUser (หรือ 'admin' หากเป็น superuser)
+            user_role = 'admin' if user.is_superuser else getattr(user, 'role', 'member')
+
             return Response({
                 "access": str(refresh.access_token),
                 "refresh": str(refresh),
-                "role": "admin" if user.is_superuser else "user"
+                "role": user_role,
+                "id": user.id,
+                "username": user.username,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
             }, status=status.HTTP_200_OK)
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
     
@@ -146,7 +155,8 @@ class LogoutView(APIView):
 
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]  # ✅ ต้องล็อกอินก่อนเข้าถึงข้อมูล
-
+    parser_classes = (MultiPartParser, FormParser)
+    
     def get(self, request):
         """ดึงข้อมูลโปรไฟล์ของผู้ใช้ที่ล็อกอินอยู่"""
         user = request.user
@@ -161,6 +171,7 @@ class UserProfileView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=200)
+        
 
         return Response(serializer.errors, status=400)
 
@@ -184,6 +195,38 @@ class CreateAdminUserView(APIView):
         user = User.objects.create_superuser(username=username, email=email, password=password)
         return Response({"message": "Admin user created successfully."}, status=status.HTTP_201_CREATED)
 
+class CreateStylistView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        username = request.data.get("username")
+        email = request.data.get("email")
+        password = request.data.get("password")
+        first_name = request.data.get("first_name")
+        last_name = request.data.get("last_name")
+        phone_number = request.data.get("phone_number")
+
+        if not username or not email or not password:
+            return Response({"error": "All fields are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(email=email).exists():
+            return Response({"error": "Email already exists."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            phone_number=phone_number,
+            role='stylist'
+        )
+
+        return Response({"message": "Stylist created successfully."}, status=status.HTTP_201_CREATED)
+
 class UserProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -197,7 +240,14 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 @permission_classes([IsAuthenticated])
 def get_member_bookings(request):
     user = request.user
-    bookings = Booking.objects.filter(user=user).order_by("-booking_date")
+
+    # หากเป็น Stylist ให้แสดงเฉพาะการจองที่มอบหมายให้ตนเอง
+    if getattr(user, "role", None) == "stylist":
+        bookings = Booking.objects.filter(stylist=user).order_by("-booking_date")
+    else:
+        # กรณีสมาชิกทั่วไป ให้แสดงเฉพาะการจองของตนเอง
+        bookings = Booking.objects.filter(user=user).order_by("-booking_date")
+
     serializer = BookingSerializer(bookings, many=True)
     return Response(serializer.data)
 
@@ -328,11 +378,12 @@ class BookingDeleteAPIView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticated]
 
 @api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def create_booking(request):
     serializer = BookingSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)
-        return Response({"message": "จองคิวสำเร็จ!", "data": serializer.data})
+        return Response({"message": "จองคิวสำเร็จ!", "data": serializer.data}, status=201)
     return Response(serializer.errors, status=400)
 
 
@@ -602,3 +653,24 @@ class HairstyleDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Hairstyle.objects.all()
     serializer_class = HairstyleSerializer
     permission_classes = [AllowAny]  # ✅ ให้เฉพาะแอดมินเข้าถึง
+
+
+class StylistListView(generics.ListAPIView):
+    queryset = CustomUser.objects.filter(role='stylist')
+    serializer_class = StylistSerializer
+    permission_classes = [AllowAny]
+
+class StylistBookingsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, stylist_id):
+        date = request.query_params.get("date")
+        bookings = Booking.objects.filter(stylist_id=stylist_id).order_by("-booking_date")
+
+        if date:
+            bookings = bookings.filter(booking_date=date)
+
+        serializer = BookingSerializer(bookings, many=True)
+        return Response(serializer.data, status=200)
+     
+    

@@ -39,6 +39,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
         ('admin', 'Admin'),
         ('member', 'Member'),
+        ('stylist', 'Stylist'),
         ('guest', 'Guest'),
     )
 
@@ -51,6 +52,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     objects = CustomUserManager()
 
@@ -82,6 +84,7 @@ class Booking(models.Model):
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='จองสำเร็จ')
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # ✅ เพิ่มราคาการจอง
     promotion = models.ForeignKey("Promotion", on_delete=models.SET_NULL, null=True, blank=True)
+    stylist = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='bookings_as_stylist')
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -99,7 +102,8 @@ class Booking(models.Model):
             self.save()
 
     def __str__(self):
-        return f"Booking by {self.user.username} on {self.booking_date} at {self.booking_time}"
+        stylist_name = self.stylist.username if self.stylist else "No stylist"
+        return f"Booking by {self.user.username} on {self.booking_date} at {self.booking_time} with {stylist_name}"
 class Promotion(models.Model):
     DISCOUNT_TYPES = [
         ('percent', 'เปอร์เซ็นต์'),
@@ -137,6 +141,7 @@ class Hairstyle(models.Model):
     description = models.TextField(null=True, blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=120)
     image = models.ImageField(upload_to='hairstyles/', null=True, blank=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 

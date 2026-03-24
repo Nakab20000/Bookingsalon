@@ -73,6 +73,11 @@ urlpatterns = [
     path("admin/no-show/<int:user_id>/", MarkNoShowAPIView.as_view(), name="mark-no-show"),
     path("admin/no-show-members/", NoShowListAPIView.as_view(), name="no-show-list"),
     path("admin/no-show-count/", NoShowCountView.as_view(), name="no-show-list"),
+    path('admin/create-stylist/', CreateStylistView.as_view(), name='create-stylist'),
+    
+    # Stylists
+    path('stylists/', StylistListView.as_view(), name="stylist-list"),
+    path('stylist/<int:stylist_id>/bookings/', StylistBookingsView.as_view(), name='stylist-bookings'),
 
 
 ]
